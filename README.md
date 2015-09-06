@@ -1,9 +1,10 @@
 dependency-grapher
 ==================
 
-Quick hack to add maven dependency trees and the actual class file references to a graph database.
+Quick hack to add maven dependency trees and the intra-class dependencies to a graph database.
 
-Currently supports maven dependency resolution and OrientDB.
+It resolves all (runtime) maven dependencies, downloads the artifacts. All jar-files get inspected and any class files inside are read to find references to other classes.
+It then stores the dependency hierarchy, artifact contents and intra-class dependencies into an OrientDB graph.
 
 The graph created follows this structure:
 
@@ -37,9 +38,10 @@ Config example:
       - "org.springframework:spring-orm:4.2.0.RELEASE"
 
 
+Sample queries
+--------------
 
-
-Some queries to try out:
+Here are some queries to try out
 
 Number of classes per artifact:
 
@@ -49,7 +51,7 @@ Number of classes per artifact:
         $y=$x.size()
     ORDER BY $y ASC
 
-Referenced classes with no implementation on the dependency tree:
+Referenced classes with no implementation in the dependency tree:
 
     SELECT name
     FROM Class
@@ -63,7 +65,21 @@ Classes with multiple implementations:
     WHERE coalesce($implementations.size(), 0) > 1
     ORDER BY name ASC
 
+What's next?
+------------
 
+Some things I want to do, but probably won't because that's usually how it goes :)
+
+* Figure out a good name for the project
+* Add interesting queries to the list above
+  - Find artifacts with no incoming class references
+  - Find artifacts
+* Add some UI that enables navigation and visualization of the dependencies as well as showing information about potential problems.
+* Add server functionality to perform and present analysis as part of a CI process.
+* Add more reference meta-data such that the type of reference (inheritance, field, local var, parameter) can be included.
+* Add support for writing the data into Neo4J to evaluate the differences
+
+Patches and ideas are welcome!
 
 License
 -------
