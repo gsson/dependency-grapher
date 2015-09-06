@@ -1,0 +1,87 @@
+group 'se.fnord'
+version '1.0-SNAPSHOT'
+ext.aetherVersion = '1.0.2.v20150114'
+ext.jacksonVersion = '2.6.1'
+
+task wrapper(type: Wrapper) {
+  gradleVersion = '2.6'
+  distributionUrl = "https://services.gradle.org/distributions/gradle-$gradleVersion-all.zip"
+}
+
+subprojects {
+    apply plugin: 'java'
+    sourceCompatibility = 1.8
+
+    repositories {
+        mavenCentral()
+    }
+
+    configurations {
+        compile.exclude group: 'asm'
+    }
+
+    dependencies {
+        testCompile 'junit:junit:4.11'
+    }
+}
+
+project(':dependency-grapher-cli') {
+    apply plugin: 'application'
+
+    mainClassName = "se.fnord.depends.cli.Main"
+
+    dependencies {
+        runtime 'net.openhft:koloboke-impl-jdk8:0.6.7'
+        runtime 'org.slf4j:slf4j-simple:1.7.12'
+        compile 'org.slf4j:slf4j-api:1.7.12'
+
+        compile "com.fasterxml.jackson.core:jackson-databind:$jacksonVersion"
+        compile "com.fasterxml.jackson.core:jackson-core:$jacksonVersion"
+        compile "com.fasterxml.jackson.core:jackson-annotations:$jacksonVersion"
+        compile "com.fasterxml.jackson.dataformat:jackson-dataformat-yaml:$jacksonVersion"
+
+        compile project(':graph-loader')
+        compile project(':graph-loader-orientdb')
+        compile project(':dependency-grapher-lib')
+    }
+}
+
+project(':dependency-grapher-lib') {
+    dependencies {
+        compile 'net.openhft:koloboke-api-jdk8:0.6.7'
+        compile project(':graph-loader')
+
+        compile 'org.slf4j:jcl-over-slf4j:1.7.12'
+
+        compile "org.eclipse.aether:aether-api:$aetherVersion"
+        compile "org.eclipse.aether:aether-impl:$aetherVersion"
+        compile "org.eclipse.aether:aether-util:$aetherVersion"
+        compile "org.eclipse.aether:aether-connector-basic:$aetherVersion"
+        compile "org.eclipse.aether:aether-transport-file:$aetherVersion"
+        compile "org.eclipse.aether:aether-transport-http:$aetherVersion"
+        compile "org.eclipse.aether:aether-connector-basic:$aetherVersion"
+        compile "org.apache.maven:maven-aether-provider:3.3.3"
+
+        compile 'org.ow2.asm:asm:5.0.4'
+    }
+}
+
+project(':graph-loader') {
+    dependencies {
+        compile 'net.openhft:koloboke-api-jdk8:0.6.7'
+    }
+}
+
+project(':graph-loader-orientdb') {
+    dependencies {
+        compile project(':graph-loader')
+
+        compile "com.fasterxml.jackson.core:jackson-databind:$jacksonVersion"
+        compile "com.fasterxml.jackson.core:jackson-core:$jacksonVersion"
+        compile "com.fasterxml.jackson.core:jackson-annotations:$jacksonVersion"
+
+        compile 'net.openhft:koloboke-api-jdk8:0.6.7'
+
+        compile 'com.orientechnologies:orientdb-graphdb:2.1.0'
+    }
+}

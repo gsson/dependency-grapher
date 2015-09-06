@@ -1,0 +1,10 @@
+database:
+  connector: "connector"
+  url: "url"
+  username: "username"
+  password: "password"
+applications:
+- name: "name"
+  artifacts:
+  - "art1"
+  - "art2"

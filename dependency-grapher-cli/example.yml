@@ -1,0 +1,16 @@
+database:
+  connector: "orientdb"
+  url: "remote:127.0.0.1/test"
+  username: "root"
+  password: "correct horse battery staples"
+resolver:
+  localRepository:
+    location: "/tmp/grapher-repo"
+  remoteRepositories:
+    - id: "Central"
+      contentType: "default"
+      location: "http://repo1.maven.org/maven2/"
+applications:
+- name: "spring-orm"
+  artifacts:
+  - "org.springframework:spring-orm:4.2.0.RELEASE"

@@ -1,0 +1,6 @@
+rootProject.name = 'dependency-grapher'
+
+include 'dependency-grapher-cli'
+include 'dependency-grapher-lib'
+include 'graph-loader'
+include 'graph-loader-orientdb'
