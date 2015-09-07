@@ -75,7 +75,9 @@ Some things I want to do, but probably won't because that's usually how it goes 
 * Figure out a good name for the project
 * Add interesting queries to the list above
   - Find artifacts with no incoming class references
-  - Find artifacts
+  - Find references to classes not directly depended upon
+  - Find cyclic package references etc
+  - Find packages exported by more than one artifact
 * Add some UI that enables navigation and visualization of the dependencies as well as showing information about potential problems.
 * Add server functionality to perform and present analysis as part of a CI process.
 * Add more reference meta-data such that the type of reference (inheritance, field, local var, parameter) can be included.
