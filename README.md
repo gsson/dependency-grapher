@@ -18,6 +18,8 @@ An executable will be generated in `dependency-grapher-cli/build/install/depende
 
     $ ./dependency-grapher-cli config.yml
 
+*Note:* It will happily delete any database with the name you specify in the configuration before filling it with data if it can.
+
 Config example:
 
     database:
@@ -78,6 +80,8 @@ Some things I want to do, but probably won't because that's usually how it goes 
 * Add server functionality to perform and present analysis as part of a CI process.
 * Add more reference meta-data such that the type of reference (inheritance, field, local var, parameter) can be included.
 * Add support for writing the data into Neo4J to evaluate the differences
+* Add ability to merge data sets from existing data
+* Compare the structure of multiple versions
 
 Patches and ideas are welcome!
 
